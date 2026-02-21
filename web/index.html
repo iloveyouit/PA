@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PA Agent — AI Infrastructure Services</title>
+    <meta name="description"
+        content="AI-powered IT infrastructure services: instant runbooks, validated Terraform modules, and security audit reports.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #222240;
+            --border: #2a2a45;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9898b0;
+            --text-muted: #6868880;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --gradient-1: linear-gradient(135deg, #4a9eff, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #10b981, #4a9eff);
+            --gradient-3: linear-gradient(135deg, #f59e0b, #ef4444);
+            --shadow-glow: 0 0 40px rgba(74, 158, 255, 0.1);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse 600px 400px at 20% 30%, rgba(74, 158, 255, 0.06), transparent),
+                radial-gradient(ellipse 500px 350px at 80% 70%, rgba(139, 92, 246, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            font-size: 1.8rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a,
+        nav button {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            background: transparent;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            padding: 10px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 0 80px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            background: rgba(74, 158, 255, 0.1);
+            border: 1px solid rgba(74, 158, 255, 0.2);
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .gradient {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-cta .btn-primary {
+            padding: 14px 32px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary {
+            padding: 14px 32px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        /* Services */
+        .services {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            font-size: 1.05rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: rgba(74, 158, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:nth-child(1)::before {
+            background: var(--gradient-2);
+        }
+
+        .service-card:nth-child(2)::before {
+            background: var(--gradient-1);
+        }
+
+        .service-card:nth-child(3)::before {
+            background: var(--gradient-3);
+        }
+
+        .service-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .service-card:nth-child(1) .service-icon {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: rgba(74, 158, 255, 0.15);
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .service-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .service-features li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* Architecture */
+        .architecture {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .arch-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .arch-node {
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .arch-node.triage {
+            background: rgba(74, 158, 255, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+        }
+
+        .arch-node.context {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .arch-node.engineer {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .arch-node.critic {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .arch-node.distill {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .arch-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Try it */
+        .try-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .try-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 48px;
+            max-width: 700px;
+            margin: 40px auto 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group select,
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus,
+        .form-group input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        #submitBtn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #submitBtn:hover {
+            opacity: 0.9;
+        }
+
+        #submitBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-area {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .result-area.visible {
+            display: block;
+        }
+
+        .result-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .arch-flow {
+                flex-direction: column;
+            }
+
+            .arch-arrow {
+                transform: rotate(90deg);
+            }
+
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .try-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><span>🦅</span> PA Agent</div>
+            <nav>
+                <a href="#services">Services</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#try">Try It</a>
+                <button class="btn-primary"
+                    onclick="document.getElementById('try').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <div class="dot"></div>
+                Self-Improving AI Agent
+            </div>
+            <h1>Infrastructure Intelligence<br><span class="gradient">Delivered in Seconds</span></h1>
+            <p>Production-ready runbooks, validated Terraform modules, and security audits — powered by a multi-agent
+                architecture that learns from every engagement.</p>
+            <div class="hero-cta">
+                <button class="btn-primary"
+                    onclick="document.getElementById('try').scrollIntoView({behavior:'smooth'})">Start Building</button>
+                <a href="#architecture" class="btn-secondary">See How It Works</a>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <h2 class="section-title">Paid Services</h2>
+            <p class="section-subtitle">Three high-value deliverables that clients pay for — generated in minutes, not
+                hours.</p>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>Incident Runbooks</h3>
+                    <p>Structured runbooks with root cause analysis, resolution steps, rollback plans, and prevention
+                        measures. Client-ready in under 3 minutes.</p>
+                    <ul class="service-features">
+                        <li>Past incident recall from semantic memory</li>
+                        <li>Live research against latest MS Docs</li>
+                        <li>Copy-paste ready PowerShell/CLI commands</li>
+                        <li>Auto-distills lessons for future use</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>Terraform Modules</h3>
+                    <p>Production-validated Azure infrastructure modules with proper variables, outputs, lifecycle
+                        rules, and diagnostic logging. Sandbox-tested before delivery.</p>
+                    <ul class="service-features">
+                        <li>E2B sandbox validation (terraform plan)</li>
+                        <li>Azure CAF naming conventions</li>
+                        <li>Full parameterization — no hardcoded values</li>
+                        <li>Includes tfvars.example and documentation</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔒</div>
+                    <h3>Security Audit Reports</h3>
+                    <p>Comprehensive Azure/AD security posture analysis with CIS benchmark references, prioritized
+                        findings, and remediation scripts.</p>
+                    <ul class="service-features">
+                        <li>RBAC and privileged group analysis</li>
+                        <li>Policy coverage gap identification</li>
+                        <li>Risk-prioritized remediation plan</li>
+                        <li>Executive summary for leadership</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture" id="architecture">
+            <h2 class="section-title">Cognitive Architecture</h2>
+            <p class="section-subtitle">Every request flows through a self-improving loop that gets smarter with each
+                engagement.</p>
+            <div class="arch-flow">
+                <div class="arch-node triage">🔀 Triage<br><small>Route to right model</small></div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node context">📚 Context<br><small>Memory + Research</small></div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node engineer">🔧 Engineer<br><small>Draft solution</small></div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node critic">🔍 Critic<br><small>Validate + sandbox</small></div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node distill">💾 Distill<br><small>Learn for next time</small></div>
+            </div>
+        </section>
+
+        <section class="try-section" id="try">
+            <h2 class="section-title">Try It Now</h2>
+            <p class="section-subtitle">Submit a request and see the agent in action.</p>
+
+            <div class="try-card">
+                <div class="form-group">
+                    <label for="serviceType">Service</label>
+                    <select id="serviceType">
+                        <option value="query">General Query</option>
+                        <option value="runbook">Incident Runbook</option>
+                        <option value="terraform">Terraform Module</option>
+                        <option value="security-audit">Security Audit</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="apiKey">API Key</label>
+                    <input type="password" id="apiKey" placeholder="pa-..." autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="requestInput">Request</label>
+                    <textarea id="requestInput"
+                        placeholder="e.g., Create a Terraform module for a highly-available Azure VPN Gateway with diagnostic logging"></textarea>
+                </div>
+
+                <button id="submitBtn" onclick="submitRequest()">Generate</button>
+
+                <div class="result-area" id="resultArea">
+                    <div class="result-content" id="resultContent"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>PA Agent — Built by <a href="#">143IT</a> · Powered by a self-improving multi-agent architecture</p>
+        </footer>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        async function submitRequest() {
+            const serviceType = document.getElementById('serviceType').value;
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const input = document.getElementById('requestInput').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const resultArea = document.getElementById('resultArea');
+            const resultContent = document.getElementById('resultContent');
+
+            if (!apiKey) { alert('Please enter your API key'); return; }
+            if (!input) { alert('Please enter a request'); return; }
+
+            btn.disabled = true;
+            btn.textContent = 'Generating...';
+            resultArea.classList.add('visible');
+            resultContent.textContent = '⏳ Processing... This may take 30-60 seconds.';
+
+            const endpoints = {
+                'query': '/v1/query',
+                'runbook': '/v1/runbook',
+                'terraform': '/v1/terraform',
+                'security-audit': '/v1/security-audit',
+            };
+
+            const bodyMap = {
+                'query': { query: input },
+                'runbook': { incident: input, severity: 'Medium' },
+                'terraform': { requirement: input, validate: true },
+                'security-audit': { scope: input },
+            };
+
+            try {
+                const resp = await fetch(`${API_BASE}${endpoints[serviceType]}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey,
+                    },
+                    body: JSON.stringify(bodyMap[serviceType]),
+                });
+
+                if (!resp.ok) {
+                    const err = await resp.json().catch(() => ({ detail: resp.statusText }));
+                    throw new Error(err.detail || `HTTP ${resp.status}`);
+                }
+
+                const data = await resp.json();
+                const output = data.data;
+
+                // Extract the main content
+                const content = output.deliverable || output.runbook || output.module || output.report || JSON.stringify(output, null, 2);
+                resultContent.textContent = content;
+
+            } catch (e) {
+                resultContent.textContent = `❌ Error: ${e.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generate';
+            }
+        }
+
+        // Placeholder rotation
+        const placeholders = [
+            'Create a Terraform module for a highly-available Azure VPN Gateway with diagnostic logging',
+            'ADFS authentication failing for external users after recent Entra ID changes',
+            'Audit Azure tenant RBAC and privileged group hygiene for compliance',
+            'Generate a runbook for resolving Kerberos KDC certificate errors',
+        ];
+        let phIdx = 0;
+        document.getElementById('serviceType').addEventListener('change', function () {
+            const map = { 'query': 0, 'runbook': 3, 'terraform': 0, 'security-audit': 2 };
+            document.getElementById('requestInput').placeholder = placeholders[map[this.value] || 0];
+        });
+    </script>
+</body>
+
+</html>

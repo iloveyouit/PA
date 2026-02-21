@@ -1,0 +1,30 @@
+# PA Self-Improving Agent — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# --- Core LLM Interface ---
+litellm>=1.52.0            # Unified API for Anthropic/OpenAI/OpenRouter
+python-dotenv>=1.0.0       # Load .env files
+
+# --- Vector Memory (Pinecone) ---
+pinecone-client>=5.0.0     # Pinecone vector database
+openai>=1.50.0             # Embedding generation (text-embedding-3-small)
+
+# --- Sandboxed Execution ---
+e2b-code-interpreter>=1.0.0  # E2B sandbox for .tf/.ps1 validation
+
+# --- Observability ---
+langfuse>=2.50.0           # LLM call tracing and analytics
+
+# --- Web / HTTP ---
+requests>=2.32.0           # HTTP client for Perplexity API
+httpx>=0.28.0              # Async HTTP client
+
+# --- Utilities ---
+rich>=13.9.0               # Pretty terminal output
+pydantic>=2.9.0            # Structured data models
+tiktoken>=0.8.0            # Token counting
+
+# --- API Server (Phase 4) ---
+fastapi[standard]>=0.115.0 # REST API framework
+uvicorn>=0.32.0            # ASGI server
+stripe>=11.0.0             # Payment processing

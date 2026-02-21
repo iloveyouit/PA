@@ -1,0 +1,29 @@
+{
+  "id": "perplexity-search",
+  "name": "Perplexity Search (OpenRouter)",
+  "description": "Add a Perplexity/OpenRouter-powered search tool that behaves like web_search but returns AI-synthesized answers.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "keyFile": {
+        "type": "string",
+        "description": "Path to a file containing an OpenRouter API key (sk-or-...)."
+      },
+      "baseUrl": {
+        "type": "string",
+        "description": "Base URL for the OpenRouter API (defaults to https://openrouter.ai/api/v1)."
+      },
+      "model": {
+        "type": "string",
+        "description": "Perplexity model identifier (defaults to perplexity/sonar-pro-search)."
+      },
+      "maxTokens": {
+        "type": "integer",
+        "minimum": 64,
+        "maximum": 4096,
+        "description": "Max tokens for the Perplexity response (defaults to 1024)."
+      }
+    }
+  }
+}
